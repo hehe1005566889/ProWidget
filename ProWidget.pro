@@ -63,8 +63,6 @@ SOURCES += \
     models/lua/lib/onelua.c \
     models/prml/PRDoc.cpp \
     models/prml/PRReader.cpp \
-    platforms/MacOSWindowHelper.mm \
-    platforms/PWMacOSMessageBox.mm \
     platforms/PWMenuBar.cpp \
     platforms/PWMessageBox.cpp \
     ui/MainWindow.cpp \
@@ -157,6 +155,11 @@ libraries/MacHelper/src/MacToolbarItem.mm \
 libraries/MacHelper/src/PopoverHelper.mm \
 libraries/MacHelper/src/StatusbarHelper.mm \
 libraries/MacHelper/src/ToolbarDelegate.mm \
+# ============================================
+# MacOS Window Tool ==========================
+platforms/MacOSWindowHelper.mm \
+platforms/PWMacOSMessageBox.mm \
+
 # ============================================
 
 HEADERS += \
