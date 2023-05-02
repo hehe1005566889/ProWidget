@@ -17,12 +17,17 @@ using namespace prml;
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    QApplication::setAttribute(Qt::AA_DontUseNativeMenuBar, false);
 
-    auto wc = new PWWindowContainer(new MainWindow());
-    wc->show();
 
-    APP_CATCHER(a.exec());
+    APP_CATCHER({
+
+        QApplication a(argc, argv);
+        QApplication::setAttribute(Qt::AA_DontUseNativeMenuBar, false);
+
+        auto wc = new PWWindowContainer(new MainWindow());
+        wc->show();
+        a.exec();
+
+    });
     return 0;
 }

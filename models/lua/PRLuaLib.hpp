@@ -16,6 +16,12 @@ namespace prlua
 
 static void(*onLuaPrint)(const QString& str) = nullptr;
 
+class PWEvent
+{
+public:
+    static int bindCallBack(lua_State* l);
+};
+
 static int printLog(lua_State* l)
 {
     int c = lua_gettop(l);
@@ -67,6 +73,8 @@ static void InitLuaLib(ref<PRLuaMain> _lua)
 {
     _lua->RegisterFunction("printl", printLog);
     _lua->RegisterFunction("print", print);
+
+    _lua->RegisterFunction("bindCallBack", PWEvent::bindCallBack);
 }
 
 

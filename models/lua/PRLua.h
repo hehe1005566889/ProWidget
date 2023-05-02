@@ -20,6 +20,7 @@ public:
     void LoadLibs();
     void KillLibs();
 
+    void CallLuaFunction(const QString& name, std::initializer_list<QVariant> args);
     void PushAndCall(const QString& luaCode);
     void RegisterFunction(const QString& name, lua_CFunction func);
 

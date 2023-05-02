@@ -6,14 +6,16 @@
 namespace prml
 {
 
-PRDoc::PRDoc()
+PRDoc::PRDoc(PRLuaMain* main)
 {
     _doc = create_ref<QDomDocument>();
+    _main = main;
 }
 
-PRDoc::PRDoc(const QString &doc)
+PRDoc::PRDoc(const QString &doc, PRLuaMain* main)
 {
     _doc = create_ref<QDomDocument>();
+    _main = main;
     if(!_doc->setContent(doc))
         THROW(PRMLEXCEP());
 }
@@ -57,7 +59,7 @@ void PRDoc::ReadElement()
         auto element = PRElement::CreateElement(name);
         if(element == nullptr)
             continue;
-        element->GenElement(item);
+        element->GenElement(item, this, _main);
         _elements.append(element);
     }
 }
@@ -66,9 +68,34 @@ void PRDoc::DrawElement(QWidget *widget)
 {
     foreach (auto item, _elements)
     {
-        item->Debug();
+        item->ElementDebug();
         item->DrawElement(widget);
     }
+}
+
+void PRDoc::RegisterNamedItem(const QString &name, PRElement *item)
+{
+    if(_named_items.contains(name))
+    {
+        Error("[Dom] Item Has Registered Before");
+        return;
+    }
+    Debug("[Dom] Registered Item -> " + name);
+    _named_items.insert(name, item);
+}
+
+bool PRDoc::FetchItem(const QString &name, PRElement *&element)
+{
+    if(!_named_items.contains(name))
+    {
+        Error("[Dom] Can't Find This Control");
+        element = nullptr;
+        return false;
+    }
+    Debug("[Dom] Fetched Item -> " + name);
+    element = _named_items.value(name);
+
+    return true;
 }
 
 }

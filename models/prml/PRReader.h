@@ -3,7 +3,10 @@
 
 #include <QDomElement>
 #include "globals.h"
+#include "models/lua/PRLua.h"
 #include <QWidget>
+
+using namespace prlua;
 
 namespace prml
 {
@@ -17,7 +20,21 @@ for(int i = 0; i <= node.attributes().count() - 1; i++) \
 { \
     auto item = node.attributes().item(i); \
     __VA_ARGS__ \
-} \
+}
+
+#define CHECK_POS(ITEM, VALUE) \
+auto value = VALUE; \
+if(!value.contains(",")) \
+    THROW(PWDocEXCP()); \
+auto xy = value.split(","); \
+if(xy.count() != 2) \
+    THROW(PWDocEXCP()); \
+ITEM->move(xy[0].toInt(), xy[1].toInt()); \
+
+#define CHECK_NAME(VALUE) \
+parent->RegisterNamedItem(VALUE, this);
+
+class PRDoc;
 
 class PRElement
 {
@@ -26,9 +43,10 @@ public:
 
     virtual ~PRElement() = default;
 
-    virtual void GenElement(QDomElement &node) = 0;
+    virtual void GenElement(QDomElement &node, PRDoc *parent, PRLuaMain *lins) = 0;
     virtual void DrawElement(QWidget *widget) = 0;
-    virtual void Debug(){};
+    virtual void ElementDebug(){};
+    virtual void BindCallBack(const QString& funcName) = 0;
 
 public:
     static PRElement* CreateElement(const QString& type);

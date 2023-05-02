@@ -8,7 +8,9 @@
 #include "models/lua/PRLua.h"
 #include "models/prml/PRDoc.h"
 
+#include "models/files/PWProjectLoader.h"
 
+using namespace pwfile;
 using namespace prml;
 using namespace prlua;
 
@@ -24,11 +26,15 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void LoadDoc(const PWProject& project);
+    void RunInNewWidget();
+    void FetchDoc(PRDoc *&val)
+    { val = _doc.get(); }
+
 private slots:
     void on_pushButton_clicked();
 
     void on_console_input_returnPressed();
-
 
 private:
     ref<QCodeEditor> _ui_editor, _code_editor; //template for design later move it to own page

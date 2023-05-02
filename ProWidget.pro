@@ -25,6 +25,7 @@ SOURCES += \
     models/editor/src/QSyntaxStyle.cpp \
     models/files/PWProjectLoader.cpp \
     models/lua/PRLua.cpp \
+    models/lua/PRLuaLib.cpp \
     models/lua/lib/lapi.c \
     models/lua/lib/lauxlib.c \
     models/lua/lib/lbaselib.c \
@@ -70,7 +71,10 @@ SOURCES += \
     ui/WindowContainer.cpp
 
 HEADERS += \
+    api/include/PWPlugin.hpp \
+    api/include/ProWidgetAPI.hpp \
     globals.h \
+    models/basic/DumpTool.h \
     models/basic/Exceptions.hpp \
     models/basic/Logger.h \
     models/basic/PlatForm.h \
@@ -122,6 +126,7 @@ HEADERS += \
     models/prml/PRDoc.h \
     models/prml/PRReader.h \
     models/prml/elements/PRButton.h \
+    models/prml/elements/PRLabel.h \
     platforms/MacOSWindowHelper.h \
     platforms/PWMenuBar.h \
     platforms/PWMessageBox.h \
@@ -173,6 +178,10 @@ libraries/MacHelper/src/ToolbarDelegate.h \
 
 } else: {
     # 非 macOS 平台下的配置
+}
+
+CONFIG(debug, debug|release) {
+    DEFINES += PWDebug
 }
 
 

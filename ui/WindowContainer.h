@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+class MainWindow;
+
 class PWWindowContainer : public QMainWindow
 {
 public:
@@ -10,6 +12,9 @@ public:
 
 public slots:
     void on_menubar_callback(const QString& name);
+
+private:
+    MainWindow* mainWindow;
 
 };
 

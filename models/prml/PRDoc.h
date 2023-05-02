@@ -4,6 +4,11 @@
 #include "globals.h"
 #include <QDomDocument>
 #include <QList>
+#include <QMap>
+
+#include "models/lua/PRLua.h"
+
+using namespace prlua;
 
 namespace prml
 {
@@ -19,7 +24,8 @@ class PRDoc
 {
 public:
     PRDoc();
-    PRDoc(const QString& doc);
+    PRDoc(PRLuaMain* main);
+    PRDoc(const QString& doc, PRLuaMain* main);
 
     ~PRDoc();
 
@@ -29,10 +35,17 @@ public:
     void ReadElement();
     void DrawElement(QWidget *widget);
 
+    void RegisterNamedItem(const QString& name, PRElement* item);
+    bool FetchItem(const QString& name, PRElement*& element);
+
 private:
     ref<QDomDocument> _doc;
     QList<PRElement*> _elements;
+
+    QMap<QString, PRElement*> _named_items;
+
     PDocHeader _header;
+    PRLuaMain* _main;
 };
 
 }

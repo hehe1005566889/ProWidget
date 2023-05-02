@@ -79,3 +79,24 @@ void Logger::LogSuccess(const QString &msg)
               << msg.toStdString().c_str()
               << std::endl;
 }
+
+void Logger::LogDebug(const QString &msg)
+{
+#ifndef ABBABB
+    //Info Using HighLight White Color For Text Color
+#ifdef PRWin
+    SetConsoleTextAttribute(consolehwnd, FOREGROUND_INTENSITY|FOREGROUND_RED|FOREGROUND_GREEN|FOREGROUND_BLUE);
+#endif
+
+    std::cout << "["
+              << QTime::currentTime().toString().toStdString()
+              << "] "
+#ifdef PRUnix
+              << "\033[35m[D] \033[0m"
+#else
+              << "[D] "
+#endif
+              << msg.toStdString()
+              << std::endl;
+#endif
+}

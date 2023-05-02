@@ -13,6 +13,7 @@
 #define Error(Message) Logger::LogError(Message);
 #define Warn(Message) Logger::LogWarn(Message);
 #define Success(Message) Logger::LogSuccess(Message);
+#define Debug(Message) Logger::LogDebug(Message)
 
 #define Assert(x, ...) \
 if(!(x)){ \
@@ -31,6 +32,7 @@ public:
     static void LogError(const QString& msg);
     static void LogWarn(const QString& msg);
     static void LogSuccess(const QString& msg);
+    static void LogDebug(const QString& msg);
 };
 
 typedef unsigned long long uint64;
