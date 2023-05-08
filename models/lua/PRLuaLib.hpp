@@ -8,7 +8,6 @@ extern "C"
 {
 #include "lib/lua.h"
 #include "models/lua/lib/lauxlib.h"
-#include "models/lua/lib/lualib.h"
 }
 
 namespace prlua
@@ -20,6 +19,7 @@ class PWEvent
 {
 public:
     static int bindCallBack(lua_State* l);
+    static int changeProp(lua_State* l);
 };
 
 static int printLog(lua_State* l)
@@ -43,6 +43,14 @@ static int printLog(lua_State* l)
     return 0;
 }
 
+class PWBasic
+{
+public:
+    static int msgbox(lua_State* l);
+
+    static int loadPWLib(lua_State* l);
+};
+
 static int print(lua_State* l)
 {
     int c = lua_gettop(l);
@@ -58,6 +66,18 @@ static int print(lua_State* l)
             break;
         case LUA_TNUMBER:
             r.append(QString::number(luaL_checknumber(l, i)));
+            break;
+        case LUA_TBOOLEAN:
+            r.append(QString());
+            break;
+        case LUA_TNIL:
+            r.append("");
+            break;
+        case LUA_TFUNCTION:
+            r.append("[NotSupport]");
+            break; // TODO Support Function
+        default:
+            r.append("");
             break;
         }
     }
@@ -75,6 +95,10 @@ static void InitLuaLib(ref<PRLuaMain> _lua)
     _lua->RegisterFunction("print", print);
 
     _lua->RegisterFunction("bindCallBack", PWEvent::bindCallBack);
+    _lua->RegisterFunction("changeProp", PWEvent::changeProp);
+
+    _lua->RegisterFunction("msgbox", PWBasic::msgbox);
+    _lua->RegisterFunction("loadPWLib", PWBasic::loadPWLib);
 }
 
 

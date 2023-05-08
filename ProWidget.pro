@@ -72,6 +72,7 @@ HEADERS += \
     api/include/PWPlugin.hpp \
     api/include/ProWidgetAPI.hpp \
     globals.h \
+    models/basic/Config.hpp \
     models/basic/DumpTool.h \
     models/basic/Exceptions.hpp \
     models/basic/Logger.h \
@@ -197,4 +198,5 @@ RESOURCES += \
     resource/resources.qrc
 
 DISTFILES += \
-    docs/Docs.txt
+    docs/Docs.txt \
+    resource/setting.ini

@@ -61,6 +61,22 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+
+// Kill All Instance In This Environment
+void MainWindow::ReleaseEnv()
+{
+    this->_lua_main->KillLibs();
+    this->_lua_main->LoadLibs();
+    prlua::InitLuaLib(_lua_main);
+
+    this->_ui_editor->clear();
+    this->_code_editor->clear();
+}
+// =====================================
+
+
+
 void MainWindow::LoadDoc(const PWProject &project)
 {
     PWMessageBox::Basic("Project Loaded", " Project Name : " + project.Name + "\n Project Author : " + project.Author + "\n");
@@ -88,6 +104,8 @@ void MainWindow::RunInNewWidget()
         auto widget = new QWidget(nullptr);
         _doc->DrawElement(widget);
         widget->show();
+
+        _lua_main->PushAndCall(_code_editor->document()->toPlainText());
     })
 }
 // ======================================

@@ -15,10 +15,11 @@ namespace prml
 
 //#define FETCH_VALUE(node) node.attributes().contains("content") ? content = node.attribute("content") : content = node.text()
 #define CHECK_ATTRI       if(!node.hasAttributes()) return;
-#define FOREACH_ATTRIBUTE(node, ...) \
+#define FOREACH_ATTRIBUTE(widget, node, ...) \
 for(int i = 0; i <= node.attributes().count() - 1; i++) \
 { \
     auto item = node.attributes().item(i); \
+    SetWidgetAttributes(widget, item.nodeName(), item.nodeValue()); \
     __VA_ARGS__ \
 }
 
@@ -46,7 +47,13 @@ public:
     virtual void GenElement(QDomElement &node, PRDoc *parent, PRLuaMain *lins) = 0;
     virtual void DrawElement(QWidget *widget) = 0;
     virtual void ElementDebug(){};
+    virtual const QString ElementNameDebug() const = 0;
     virtual void BindCallBack(const QString& funcName) = 0;
+    virtual QWidget* GetWidget() = 0;
+    virtual void SetAttribute(const QString& key, const QString& value) = 0;
+
+protected:
+    void SetWidgetAttributes(QWidget* widget, const QString& node, const QString& value);
 
 public:
     static PRElement* CreateElement(const QString& type);

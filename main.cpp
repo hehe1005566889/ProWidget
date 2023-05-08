@@ -24,6 +24,10 @@ int main(int argc, char *argv[])
         QApplication a(argc, argv);
         QApplication::setAttribute(Qt::AA_DontUseNativeMenuBar, false);
 
+        QApplication::setOrganizationName("FlyBirdGames");
+        QApplication::setApplicationName("ProWidget");
+
+
         auto wc = new PWWindowContainer(new MainWindow());
         wc->show();
         a.exec();

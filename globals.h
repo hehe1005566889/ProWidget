@@ -9,6 +9,8 @@
 #include "models/basic/PlatForm.h"
 #include "models/basic/Exceptions.hpp"
 
+#include "models/basic/Config.hpp"
+
 template<typename T>
 using ref = std::shared_ptr<T>;
 

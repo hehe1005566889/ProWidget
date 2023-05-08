@@ -31,17 +31,11 @@ public:
         _button->setText(content);
 
         CHECK_ATTRI;
-        FOREACH_ATTRIBUTE(node, {
-            if (item.nodeName() == "style") {
-                _button->setStyleSheet(item.nodeValue());
-            }
-            if(item.nodeName() == "pos")
-            {
-                CHECK_POS(_button, item.nodeValue());
-            }
+        FOREACH_ATTRIBUTE(_button, node, {
             if(item.nodeName() == "name")
             {
                 CHECK_NAME(item.nodeValue());
+                _id = item.nodeValue();
             }
         });
     }
@@ -53,18 +47,45 @@ public:
     }
 
     void DrawElement() {
-        Info("PButton Create Notify");
+        Info("[Element] PButton Create Notify");
     }
 
     void BindCallBack(const QString& funcName)
     {
-        Debug("On Bind Call Back " + funcName);
-        _main->CallLuaFunction(funcName, { 114514 });
+        Debug("[Element] On Bind Call Back " + funcName);
+        callback = funcName;
+
+        QObject::connect(_button, &QPushButton::clicked, [&] {
+            _main->CallLuaFunction(callback, { 1 });
+        });
+    }
+
+    QWidget* GetWidget()
+    {
+        return _button;
+    }
+
+    void SetAttribute(const QString& key, const QString& value)
+    {
+        Debug("[Element] Attribute Key : " + key + " Value : " + value);
+        if(key == "text")
+        {
+            _button->setText(value);
+            Debug("[Element] Set New Text Value Done");
+        }
+    }
+
+    const QString ElementNameDebug() const
+    {
+        Debug("[Element] Type : PButton");
+        return _id;
     }
 
 private:
     QPushButton* _button;
     PRLuaMain *_main;
+    QString callback;
+    QString _id;
 
 protected:
     PRButton(const PRButton&) = default; // 添加拷贝构造函数

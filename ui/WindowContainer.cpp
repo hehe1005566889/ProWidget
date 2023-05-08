@@ -41,6 +41,8 @@ void PWWindowContainer::on_menubar_callback(const QString &name)
     Info(name);
     if(name == "打开地址")
     {
+        mainWindow->ReleaseEnv();
+
         QString folderPath = QFileDialog::getExistingDirectory(nullptr, "Select Folder", QDir::homePath());
         if (!folderPath.isEmpty()) {
             PWProject project;

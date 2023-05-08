@@ -26,6 +26,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
+    void ReleaseEnv();
     void LoadDoc(const PWProject& project);
     void RunInNewWidget();
     void FetchDoc(PRDoc *&val)

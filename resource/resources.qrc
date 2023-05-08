@@ -6,5 +6,6 @@
         <file>languages/python.xml</file>
         <file>languages/QCXXHighlighter.hpp</file>
         <file>default_style.xml</file>
+        <file>setting.ini</file>
     </qresource>
 </RCC>

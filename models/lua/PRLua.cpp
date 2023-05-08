@@ -75,7 +75,10 @@ void PRLuaMain::PushAndCall(const QString &luaCode)
 {
     int result = luaL_loadstring(_state, luaCode.toStdString().c_str());
     if(result)
+    {
+        Error("[Script] Lua Code Parsing Exception");
         THROW(PRLUAEXCP());
+    }
 
     result = lua_pcall(_state, 0, 0, 0);
     if(result)
