@@ -55,12 +55,10 @@ SOURCES += \
     models/lua/lib/ltablib.c \
     models/lua/lib/ltests.c \
     models/lua/lib/ltm.c \
-    models/lua/lib/lua.c \
     models/lua/lib/lundump.c \
     models/lua/lib/lutf8lib.c \
     models/lua/lib/lvm.c \
     models/lua/lib/lzio.c \
-    models/lua/lib/onelua.c \
     models/prml/PRDoc.cpp \
     models/prml/PRReader.cpp \
     platforms/PWMenuBar.cpp \
