@@ -1,3 +1,0 @@
-[submodule "models/lua/lib"]
-	path = models/lua/lib
-	url = https://github.com/lua/lua.git
