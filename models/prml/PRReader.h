@@ -35,6 +35,12 @@ ITEM->move(xy[0].toInt(), xy[1].toInt()); \
 #define CHECK_NAME(VALUE) \
 parent->RegisterNamedItem(VALUE, this);
 
+#define CHECK_DOM(WIDGET,KEY,VALUE) \
+SetWidgetDomAttributes(WIDGET,KEY,VALUE)
+
+#define CHECK_SCRIPT_DOM(WIDGET,KVLIST, CALLBACK) \
+DealScriptCreateArgs(WIDGET,KVLIST,CALLBACK)
+
 class PRDoc;
 
 class PRElement
@@ -44,6 +50,7 @@ public:
 
     virtual ~PRElement() = default;
 
+    virtual void OnScriptCreate(const QList<QString>& args) = 0;
     virtual void GenElement(QDomElement &node, PRDoc *parent, PRLuaMain *lins) = 0;
     virtual void DrawElement(QWidget *widget) = 0;
     virtual void ElementDebug(){};
@@ -53,7 +60,9 @@ public:
     virtual void SetAttribute(const QString& key, const QString& value) = 0;
 
 protected:
+    void SetWidgetDomAttributes(QWidget* widget, const QString& key, const QString& value);
     void SetWidgetAttributes(QWidget* widget, const QString& node, const QString& value);
+    void DealScriptCreateArgs(QWidget* widget, const QList<QString>& args, std::function<void(const QString& key,const QString& value)> callback);
 
 public:
     static PRElement* CreateElement(const QString& type);

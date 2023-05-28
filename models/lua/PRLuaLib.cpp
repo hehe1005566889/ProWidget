@@ -138,4 +138,44 @@ int PWBasic::loadPWLib(lua_State *l)
     return 1;
 }
 
+int PWBasic::createWidget(lua_State *l)
+{
+
+    auto path = SystemSetting->GetValue("Lua/LibraryPath").toString();
+
+    int c = lua_gettop(l);
+    if(c < 2)
+    {
+        Error("[Script] changeProp -> Need 3 String Argument");
+        return -1;
+    }
+
+
+    auto name  = luaL_checkstring(l, 1);
+    auto key   = luaL_checkstring(l, 2);
+
+    QList<QString> args;
+    if(c != 2) {
+        for(int i = 3; i <= c; i++)
+        {
+            args.append(QString(luaL_checkstring(l, i)));
+        }
+    }
+
+    PRDoc* doc;
+    MainWindow::Instance->FetchDoc(doc);
+    if(doc == nullptr)
+    {
+        Error("[Script] doc not init");
+        return -1;
+    }
+
+    auto element = prml::PRElement::CreateElement(name);
+
+    doc->PushItem(element, args);
+    doc->RegisterNamedItem(key, element);
+
+    return 1;
+}
+
 }

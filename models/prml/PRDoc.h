@@ -35,6 +35,7 @@ public:
     void ReadElement();
     void DrawElement(QWidget *widget);
 
+    void PushItem(PRElement* item, const QList<QString>& args);
     void RegisterNamedItem(const QString& name, PRElement* item);
     bool FetchItem(const QString& name, PRElement*& element);
 
@@ -46,6 +47,8 @@ private:
 
     PDocHeader _header;
     PRLuaMain* _main;
+
+    QWidget* _last_parent_widget;
 };
 
 }

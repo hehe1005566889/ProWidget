@@ -3,43 +3,84 @@
 #include "models/prml/elements/PRButton.h"
 #include "models/prml/elements/PRLabel.h"
 
+#include "PRMLTools.hpp"
+
 namespace prml
 {
+
+void PRElement::SetWidgetDomAttributes(QWidget *widget, const QString &key, const QString &value)
+{
+    if(key == "pos")
+    {
+        Debug("On Dom Move Element");
+
+        int x = 0, y = 0;
+        PRMLTools::ParsePos(value, x, y);
+        widget->move(x, y);
+    }
+    if(key == "style")
+    {
+        Debug("On Dom Set Style");
+
+        widget->setStyleSheet(value);
+    }
+    if(key == "size")
+    {
+        Debug("On Dom Change Size");
+
+        int w = 0, h = 0;
+        PRMLTools::ParsePos(value, w, h);
+        widget->resize(w, h);
+    }
+}
 
 void PRElement::SetWidgetAttributes(QWidget *widget, const QString &node, const QString &value)
 {
     if(node == "pos")
     {
-        if(!value.contains(","))
-            THROW(PWDocEXCP());
-        auto xy = value.split(",");
-        if(xy.count() != 2)
-            THROW(PWDocEXCP());
-        widget->move(xy[0].toInt(), xy[1].toInt());
+        int x = 0, y = 0;
+        PRMLTools::ParsePos(value, x, y);
+        widget->move(x, y);
     }
     if(node == "size")
     {
-        if(!value.contains(","))
-            THROW(PWDocEXCP());
-        auto xy = value.split(",");
-        if(xy.count() != 2)
-            THROW(PWDocEXCP());
-        widget->resize(xy[0].toInt(), xy[1].toInt());
+        int w = 0, h = 0;
+        PRMLTools::ParsePos(value, w, h);
+        widget->resize(w, h);
     }
     if(node == "enable")
     {
-        if(value == "true")
+        bool res;
+        PRMLTools::ParseBoolean(value, res);
+        if(res)
             widget->setEnabled(true);
         else
             widget->setDisabled(true);
     }
     if(node == "visible")
     {
-        widget->setHidden(value == "false");
+        bool res;
+        PRMLTools::ParseBoolean(value, res);
+        widget->setHidden(!res);
     }
     if(node == "style")
     {
         widget->setStyleSheet(value);
+    }
+}
+
+void PRElement::DealScriptCreateArgs(QWidget *widget, const QList<QString> &args, std::function<void(const QString& key,const QString& value)> callback)
+{
+    for(const auto &arg : args) {
+
+        if(!arg.contains("="))
+            continue;
+        auto kv = arg.split("=");
+        if(kv.size() != 2)
+            continue;
+
+        SetWidgetAttributes(widget, kv[0], kv[1]);
+        callback(kv[0], kv[1]);
     }
 }
 

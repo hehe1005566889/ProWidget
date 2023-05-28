@@ -66,11 +66,28 @@ void PRDoc::ReadElement()
 
 void PRDoc::DrawElement(QWidget *widget)
 {
+    _last_parent_widget = widget;
+
     foreach (auto item, _elements)
     {
         item->ElementDebug();
         item->DrawElement(widget);
     }
+}
+
+void PRDoc::PushItem(PRElement *item, const QList<QString>& args)
+{
+    if(item == nullptr)
+        return;
+
+    item->OnScriptCreate(args);
+    _elements.append(item);
+    if(_last_parent_widget == nullptr)
+    {
+        Error("This Doc IS NOT ATTENDED!");
+        THROW(PWDocEXCP());
+    }
+    item->DrawElement(_last_parent_widget);
 }
 
 void PRDoc::RegisterNamedItem(const QString &name, PRElement *item)

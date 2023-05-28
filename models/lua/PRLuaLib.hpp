@@ -49,6 +49,7 @@ public:
     static int msgbox(lua_State* l);
 
     static int loadPWLib(lua_State* l);
+    static int createWidget(lua_State* l);
 };
 
 static int print(lua_State* l)
@@ -99,6 +100,7 @@ static void InitLuaLib(ref<PRLuaMain> _lua)
 
     _lua->RegisterFunction("msgbox", PWBasic::msgbox);
     _lua->RegisterFunction("loadPWLib", PWBasic::loadPWLib);
+    _lua->RegisterFunction("createWidget", PWBasic::createWidget);
 }
 
 

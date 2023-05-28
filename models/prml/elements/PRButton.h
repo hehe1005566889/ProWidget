@@ -20,6 +20,17 @@ public:
     }
 
 public:
+
+    void OnScriptCreate(const QList<QString>& args)
+    {
+        _button = new QPushButton();
+        CHECK_SCRIPT_DOM(_button, args, [&](const QString& key, const QString& value) {
+            Debug("[ScriptDom] With Key : " + key + " Value : " + value);
+            if(key == "text")
+                _button->setText(value);
+        });
+    }
+
     void GenElement(QDomElement &node, PRDoc *parent, PRLuaMain *lins)
     {
         _main = lins;
@@ -68,6 +79,8 @@ public:
     void SetAttribute(const QString& key, const QString& value)
     {
         Debug("[Element] Attribute Key : " + key + " Value : " + value);
+        CHECK_DOM(GetWidget(), key, value);
+
         if(key == "text")
         {
             _button->setText(value);
@@ -77,7 +90,7 @@ public:
 
     const QString ElementNameDebug() const
     {
-        Debug("[Element] Type : PButton");
+        Debug("[Element] Debug Type Name : PButton");
         return _id;
     }
 

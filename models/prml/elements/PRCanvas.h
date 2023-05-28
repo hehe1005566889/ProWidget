@@ -1,37 +1,31 @@
-#ifndef PRLABEL_H
-#define PRLABEL_H
+#ifndef PRCANVAS_H
+#define PRCANVAS_H
 
 #include "models/prml/PRReader.h"
 #include "models/lua/PRLua.h"
 #include "models/prml/PRDoc.h"
 
-#include <QLabel>
+#include <QWidget>
 
 using namespace prlua;
 
 namespace prml
 {
 
-class PRLabel : public PRElement
+class PRCanvas : public PRElement
 {
 public:
-    PRLabel() : PRElement(), _label(nullptr) {}
-    ~PRLabel()
+    PRCanvas() : PRElement(), _widget(nullptr) {}
+    ~PRCanvas()
     {
-        _label->close();
-        delete _label;
+        _widget->close();
+        delete _widget;
     }
 
 public:
 
     void OnScriptCreate(const QList<QString>& args) {
 
-        _label = new QLabel();
-        CHECK_SCRIPT_DOM(_label, args, [&](const QString& key, const QString& value) {
-            Debug("[ScriptDom] With Key : " + key + " Value : " + value);
-            if(key == "text")
-                _label->setText(value);
-        });
     }
 
     void GenElement(QDomElement &node, PRDoc *parent, PRLuaMain *lins)
@@ -41,11 +35,10 @@ public:
         QString content;
         content = FETCH_VALUE(node);
 
-        _label = new QLabel();
-        _label->setText(content);
+        _widget = new QWidget();
 
         CHECK_ATTRI;
-        FOREACH_ATTRIBUTE(_label, node, {
+        FOREACH_ATTRIBUTE(_widget, node, {
             if(item.nodeName() == "name")
             {
                 CHECK_NAME(item.nodeValue());
@@ -56,8 +49,8 @@ public:
 
     void DrawElement(QWidget *widget)
     {
-        _label->setParent(widget);
-        _label->show();
+        _widget->setParent(widget);
+        _widget->show();
     }
 
     void DrawElement() {
@@ -66,13 +59,13 @@ public:
 
     void BindCallBack(const QString& funcName)
     {
-        Debug("[Element] On Bind Call Back " + funcName);
-        _main->CallLuaFunction(funcName, { 114514 });
+        //Debug("[Element] On Bind Call Back " + funcName);
+        //_main->CallLuaFunction(funcName, { 114514 });
     }
 
     QWidget* GetWidget()
     {
-        return _label;
+        return _widget;
     }
 
 
@@ -88,17 +81,16 @@ public:
     }
 
 private:
-    QLabel* _label;
+    QWidget* _widget;
     PRLuaMain* _main;
     QString _id;
 
 protected:
-    PRLabel(const PRLabel&) = default; // 添加拷贝构造函数
-    PRLabel& operator=(const PRLabel&) = default; // 添加赋值操作符
+    PRCanvas(const PRCanvas&) = default; // 添加拷贝构造函数
+    PRCanvas& operator=(const PRCanvas&) = default; // 添加赋值操作符
 
 };
 
 }
 
-
-#endif // PRLABEL_H
+#endif // PRCANVAS_H

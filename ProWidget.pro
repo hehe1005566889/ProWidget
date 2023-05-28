@@ -121,8 +121,10 @@ HEADERS += \
     models/lua/lib/lvm.h \
     models/lua/lib/lzio.h \
     models/prml/PRDoc.h \
+    models/prml/PRMLTools.hpp \
     models/prml/PRReader.h \
     models/prml/elements/PRButton.h \
+    models/prml/elements/PRCanvas.h \
     models/prml/elements/PRLabel.h \
     platforms/MacOSWindowHelper.h \
     platforms/PWMenuBar.h \
